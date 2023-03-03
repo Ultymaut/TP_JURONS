@@ -8,11 +8,11 @@ class HistoriqueDAO
     {
         $this-> setConn ($conn);
     }
-    public function insertIntoFait(User $user, Infraction $infractions)
+    public function insertIntoFait(Fait $fait)
     {
         $date = date("Y-m-d h:m:s");
-        $id_infraction = $infractions->getId_infraction();
-        $id_user = $user->getId_user();
+        $id_infraction = $fait->getInfraction();
+        $id_user = $fait->getUser();
 
         $req = $this -> getConn() -> prepare ("INSERT INTO fait (id_Infraction,id_user,date) VALUES (:id_Infraction,:id_user,:date)");
 
