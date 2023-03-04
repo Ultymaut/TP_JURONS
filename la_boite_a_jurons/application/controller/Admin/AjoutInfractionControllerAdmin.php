@@ -1,10 +1,10 @@
 <?php
-require_once "../../modele/service/InfractionDAO.php";
-require_once "../../modele/service/HistoriqueDAO.php";
-require_once "../../modele/service/UserDAO.php";
-require_once "../../modele/BDConnexion.php";
+require_once "C:/xampp\htdocs\la_boite_a_jurons\application\modele\service\InfractionDAO.php";
+require_once "C:/xampp\htdocs\la_boite_a_jurons\application\modele\service\HistoriqueDAO.php";
+require_once "C:/xampp\htdocs\la_boite_a_jurons\application\modele\service\UserDAO.php";
+require_once "C:/xampp\htdocs\la_boite_a_jurons\application\modele\BDConnexion.php";
 
-session_start();
+ session_start();
 
 if (isset($conn)) {
     $UserDAO = new UserDAO($conn);
@@ -14,7 +14,6 @@ if (isset($conn)) {
     foreach ($userListe as $key => $value) {
         $listNom[] = $value['nom'];
     }
-
     $_SESSION['nom'] = $listNom;
 
     $infractionDao = new InfractionDAO($conn);
@@ -47,15 +46,11 @@ if (isset($conn)) {
             $infractionDao->incrementeInfraction($user, $infraction);
             $id_user = $user->getId_user();
             $solde = $UserDAO->updateUserSolde($user);
-            var_dump($solde);
+            $user ->setSolde($solde);
+            $historiqueFaitDAO->incrementeInfraction($user, $infraction);
         }
 
 
-//        $user ->setSolde($solde);
-//        $historiqueFaitDAO->incrementeInfraction($user, $infraction);
-
-    } else {
-        echo "no data";
     }
 }
 

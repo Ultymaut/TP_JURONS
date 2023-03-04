@@ -1,6 +1,6 @@
 <?php
-require_once "../../modele/Infraction.class.php";
-require_once "../../modele/User.class.php";
+require_once "C:/xampp\htdocs\la_boite_a_jurons\application\modele\service\InfractionDAO.php";
+require_once "C:/xampp\htdocs\la_boite_a_jurons\application\modele\User.class.php";
 
 class InfractionDAO{
     private PDO $conn;

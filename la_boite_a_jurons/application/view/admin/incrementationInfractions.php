@@ -1,3 +1,4 @@
+<?php include_once "../../controller/Admin/AjoutInfractionControllerAdmin.php"?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/userStyle.css">
+
 </head>
 <body>
 
@@ -53,7 +55,7 @@
         </ul>
 </nav>
 
-<form method="get" action="../../controller/Admin/AjoutInfractionControllerAdmin.php">
+<form >
     <div class="d-flex mt-5 ms-5 ps-5 me-5 justify-content-center">
 
         <!--chox d un user-->
@@ -61,7 +63,6 @@
 
             <option>choisie le malfaiteur</option>
             <?php
-            session_start();
             foreach ($_SESSION['nom'] as $index => $item) {
                 echo "<option>" . $item . "</option>";
             }
@@ -73,6 +74,7 @@
             <?php
             foreach ($_SESSION['libelee'] as $index => $item) {
                 echo "<option>" . $item . "</option>";
+                var_dump($item);
             }
             ?>
         </select>

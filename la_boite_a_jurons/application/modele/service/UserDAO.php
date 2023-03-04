@@ -1,6 +1,6 @@
 <?php
-require_once("C://xampp\htdocs\la_boite_a_jurons\application\modele\User.class.php");
-require_once ("C://xampp\htdocs\la_boite_a_jurons\application\modele\Infraction.class.php");
+require_once"C://xampp\htdocs\la_boite_a_jurons\application\modele\User.class.php";
+require_once "C://xampp\htdocs\la_boite_a_jurons\application\modele\Infraction.class.php";
 require_once "C://xampp\htdocs\la_boite_a_jurons\application\modele\Profile.class.php";
 class UserDAO
 {
@@ -116,7 +116,7 @@ class UserDAO
         $user= $this->getUsertByLogin($log);
         $id=$user->getId_user();
 
-        $req2=$this->getConn()->prepare ("SELECT round(SUM(montant),2) as newSolde from fait f, users u, type_infractions t where f.id_user=u.id_user and f.id_user = :id_user GROUP by login;");
+        $req2=$this->getConn()->prepare ("SELECT round(SUM(t.montant),2) as newSolde from fait f, users u, type_infractions t where f.id_user=u.id_user and t.id_Infraction = f.id_Infraction and f.id_user = :id_user GROUP by login;");
 
         $req2->bindValue(':id_user', $id, PDO::PARAM_STR);
         $req2->execute();
