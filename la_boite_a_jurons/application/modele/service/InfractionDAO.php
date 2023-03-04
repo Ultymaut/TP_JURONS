@@ -54,7 +54,32 @@ class InfractionDAO{
         $req->closeCursor();
         return $inflist;
     }
+    public function incrementeInfraction(User $user, Infraction $infraction)
+    {
+        $req = $this->getConn()->prepare('INSERT INTO fait(id_Infraction,id_user) VALUES (:id_Infraction,:id_user)');
 
+        $conn = $this->getConn();
+        $userDAO = new UserDAO($conn);
+        $libelee = $infraction->getType();
+        $infraction = $this->selectInfractionsByLibelee($libelee);
+
+
+
+        $login = $user->getProfile()->getLogin();
+        $user = $userDAO->getUsertByLogin($login);
+
+
+        $id_user = $user->getId_user();
+        $id_Infraction = $infraction->getId_infraction();
+
+        $req->bindValue(':id_Infraction', $id_Infraction, PDO::PARAM_STR);
+        $req->bindValue(':id_user', $id_user, PDO::PARAM_STR);
+
+        $status = $req->execute();
+        $req->closeCursor();
+
+        return $status;
+    }
     public function deleteInfractions (Infraction $infraction) {
         $infraction = $this->selectInfractionsByLibelee($infraction->getType());
         $id_Infraction=$infraction->getId_infraction();

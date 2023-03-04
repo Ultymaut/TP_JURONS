@@ -6,32 +6,56 @@ require_once "../../modele/BDConnexion.php";
 
 session_start();
 
-if (isset($conn)){
-$UserDAO=new UserDAO($conn);
+if (isset($conn)) {
+    $UserDAO = new UserDAO($conn);
 
-    $userListe=$UserDAO->selectAllUser();
-    $listLogin = array();
+    $userListe = $UserDAO->selectAllUser();
 
-        foreach ($userListe as $key => $value){
-            $listLogin[]=$value['login'];
-        }
-        $_SESSION['login']=$listLogin;
+    foreach ($userListe as $key => $value) {
+        $listNom[] = $value['nom'];
+    }
 
-$infractionDao = new InfractionDAO($conn);
+    $_SESSION['nom'] = $listNom;
+
+    $infractionDao = new InfractionDAO($conn);
 
     $infListe = $infractionDao->selectAllInfraction();
-    $listLibelee=array();
+    $listLibelee = array();
 
-        foreach ($infListe as $index => $item) {
-            $listLibelee[]=$item['libelee'];
+    foreach ($infListe as $index => $item) {
+        $listLibelee[] = $item['libelee'];
+    }
+    $_SESSION['libelee'] = $listLibelee;
+
+    //
+    if (isset($_GET['libelee'], $_GET['nom'])) {
+
+        $historiqueFaitDAO = new InfractionDAO($conn);
+
+        $infraction = $infractionDao->selectInfractionsByLibelee($_GET['libelee']);
+
+        foreach ($userListe as $index => $item) {
+            $nom = $item['nom'];
+            if ($nom == $_GET['nom']) {
+                $login = $item['login'];
+                break;
+            }
         }
-        $_SESSION['libelee'] = $listLibelee;
+        if (isset($login)) {
+            $user = $UserDAO->getUsertByLogin($login);
+            $infraction = $infractionDao->selectInfractionsByLibelee($_GET['libelee']);
+            $infractionDao->incrementeInfraction($user, $infraction);
+            $id_user = $user->getId_user();
+            $solde = $UserDAO->updateUserSolde($user);
+            var_dump($solde);
+        }
 
-$historiqueFaitDAO= new HistoriqueDAO($conn);
 
-    $inserfait = $_POST['id_Infraction'];
-    $inserfait = $_POST['id_user'];
+//        $user ->setSolde($solde);
+//        $historiqueFaitDAO->incrementeInfraction($user, $infraction);
 
-    $insertFait= $historiqueFaitDAO->insertIntoFait($inserfait);
+    } else {
+        echo "no data";
+    }
 }
 

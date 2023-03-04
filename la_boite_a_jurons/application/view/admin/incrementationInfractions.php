@@ -1,11 +1,11 @@
-<?php include_once "../../controller/Admin/AjoutInfractionControllerAdmin.php"?>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Boite a JURON</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/userStyle.css">
 </head>
 <body>
@@ -53,31 +53,38 @@
         </ul>
 </nav>
 
-<div class="d-flex mt-5 ms-5 ps-5 me-5 justify-content-center">
-                                <!--chox d un user-->
-    <select class="form-select form-select-lg ms-5 mb-3" aria-label=".form-select-lg example">
-        <option selected>choisie le malfaiteur</option>
-        <option value="" name="id_user">       <?php
-            foreach ($_SESSION['login'] as $index => $item) {
-                echo "<option value=''name='id_user'>".$item."</option>" ;
-            }
-            ?></option>
-    </select>
+<form method="get" action="../../controller/Admin/AjoutInfractionControllerAdmin.php">
+    <div class="d-flex mt-5 ms-5 ps-5 me-5 justify-content-center">
 
-    <select class="form-select form-select-lg ms-5 mb-3" aria-label=".form-select-lg example">
-        <option selected>choisie le malfaiteur</option>
-        <option value="" name="id_Infraction">       <?php
+        <!--chox d un user-->
+        <select name='nom' class="form-select form-select-lg ms-5 mb-3" aria-label=".form-select-lg example">
+
+            <option>choisie le malfaiteur</option>
+            <?php
+            session_start();
+            foreach ($_SESSION['nom'] as $index => $item) {
+                echo "<option>" . $item . "</option>";
+            }
+            ?>
+        </select>
+
+        <select class="form-select form-select-lg ms-5 mb-3" aria-label=".form-select-lg example" name='libelee'>
+            <option>choisie l'infraction</option>
+            <?php
             foreach ($_SESSION['libelee'] as $index => $item) {
-                echo "<option value='' name='id_Infraction'>".$item."</option>" ;
+                echo "<option>" . $item . "</option>";
             }
-            ?></option>
-    </select>
-</div>
-<div class="d-flex mt-5 ms-5 ps-5 me-5 justify-content-center">
-    <a href=" ">
-<button type="button" class="btn btn-outline-primary" formmethod="post">Balance</button> </a>
-</div >
+            ?>
+        </select>
+        <div class="d-flex mt-5 ms-5 ps-5 me-5 justify-content-center">
+            <button type="submit" class="btn btn-outline-primary">Balance</button>
+        </div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 </body>
 </html>

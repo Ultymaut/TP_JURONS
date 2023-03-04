@@ -75,8 +75,9 @@ class UserDAO
 
             $req->closeCursor();
             return $user;
-        } else {
-            return null;   
+        }
+        else {
+            return null;
         }
     }
 
@@ -109,7 +110,29 @@ class UserDAO
         return $req;
     }
 
+    public function updateUserSolde (User $user){
 
+        $log=$user->getProfile()->getLogin();
+        $user= $this->getUsertByLogin($log);
+        $id=$user->getId_user();
+
+        $req2=$this->getConn()->prepare ("SELECT round(SUM(montant),2) as newSolde from fait f, users u, type_infractions t where f.id_user=u.id_user and f.id_user = :id_user GROUP by login;");
+
+        $req2->bindValue(':id_user', $id, PDO::PARAM_STR);
+        $req2->execute();
+        $solde=$req2->fetch();
+
+        $req= $this->getConn()->prepare("UPDATE users SET solde = :solde where id_user=:id_user");
+
+        $req->bindValue(':solde', $solde['newSolde'], PDO::PARAM_STR);
+        $req->bindValue(':id_user', $id, PDO::PARAM_STR);
+
+        $req->execute();
+        $req->closeCursor();
+
+        return $solde['newSolde'];
+
+    }
     /**
      * Get the value of conection
      */ 
