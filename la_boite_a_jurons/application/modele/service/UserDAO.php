@@ -1,6 +1,6 @@
 <?php
-require_once"C://xampp\htdocs\la_boite_a_jurons\application\modele\User.class.php";
-require_once "C://xampp\htdocs\la_boite_a_jurons\application\modele\Infraction.class.php";
+require_once("C://xampp\htdocs\la_boite_a_jurons\application\modele\User.class.php");
+require_once ("C://xampp\htdocs\la_boite_a_jurons\application\modele\Infraction.class.php");
 require_once "C://xampp\htdocs\la_boite_a_jurons\application\modele\Profile.class.php";
 class UserDAO
 {
@@ -69,15 +69,16 @@ class UserDAO
             $user = new User($ligne['nom'],$ligne['prenom'],$ligne['dateNaissance'],$ligne['solde'], $profile);
 
             $profileUser = $user->getProfile();
+
             $profileUser->setPrivilege($ligne2['privilege']);
 
             $user->setId_user($ligne['id_user']);
 
             $req->closeCursor();
+
             return $user;
-        }
-        else {
-            return null;
+        } else {
+            return null;   
         }
     }
 
@@ -96,6 +97,48 @@ class UserDAO
         $req->execute();
         $req->closeCursor();
     }
+  //Mounir
+    public function updatePrivilegeByLogin(string $login, string $newPrivilege){
+        $newPrivilege = ($newPrivilege == 'Admin') ? 1 : 0 ;
+
+        $req= $this->getConn()->prepare("UPDATE profile SET privilege = :privilege where login =:login");
+
+        $req->bindValue(':privilege', $newPrivilege, PDO::PARAM_STR);
+        $req->bindValue(':login', $login, PDO::PARAM_STR);
+
+        $req->execute();
+        $req->closeCursor();
+    }
+
+    
+    public function updateUserSolde (User $user){
+
+        $log=$user->getProfile()->getLogin();
+        $user= $this->getUsertByLogin($log);
+        $id=$user->getId_user();
+
+        $req2=$this->getConn()->prepare ("SELECT round(SUM(montant),2) as newSolde from fait f, users u, type_infractions t where f.id_user=u.id_user and f.id_Infraction = t.id_infraction and f.id_user = :id_user GROUP by login;");
+
+        $req2->bindValue(':id_user', $id, PDO::PARAM_STR);
+        $req2->execute();
+        $solde=$req2->fetch();
+        
+        $req= $this->getConn()->prepare("UPDATE users SET solde = :solde where id_user=:id_user");
+
+        $req->bindValue(':solde', $solde['newSolde'], PDO::PARAM_STR);
+        $req->bindValue(':id_user', $id, PDO::PARAM_STR);
+       
+
+        $req->execute();
+        $req->closeCursor();
+
+        return $solde['newSolde'];
+
+
+    }
+
+
+
 
     public function deleteUser (User $user)
     {
@@ -110,29 +153,32 @@ class UserDAO
         return $req;
     }
 
-    public function updateUserSolde (User $user){
+    public function getHistoriqueUser (User $user)
+    {
+        $req=$this->getConn()->prepare ('SELECT nom, prenom, login, libelee, round (sum(f.montant),2) as amount FROM fait t, users u, type_infractions f where f.id_Infraction = t.id_Infraction and u.id_user = :id_user GROUP by login, libelee;');
 
-        $log=$user->getProfile()->getLogin();
-        $user= $this->getUsertByLogin($log);
-        $id=$user->getId_user();
+        $login = $user->getProfile()->getLogin();
+        $user = $this->getUsertByLogin($login);
 
-        $req2=$this->getConn()->prepare ("SELECT round(SUM(t.montant),2) as newSolde from fait f, users u, type_infractions t where f.id_user=u.id_user and t.id_Infraction = f.id_Infraction and f.id_user = :id_user GROUP by login;");
 
-        $req2->bindValue(':id_user', $id, PDO::PARAM_STR);
-        $req2->execute();
-        $solde=$req2->fetch();
+        $id_user = $user->getId_user();
 
-        $req= $this->getConn()->prepare("UPDATE users SET solde = :solde where id_user=:id_user");
+        $req->bindValue(':id_user', $id_user, PDO::PARAM_STR);
+       
+        // recuperation en tableaux assiociative les donnée de l'infraction (libelee,montant):
+        while ($ligne = $req->fetch(PDO::FETCH_ASSOC)){
 
-        $req->bindValue(':solde', $solde['newSolde'], PDO::PARAM_STR);
-        $req->bindValue(':id_user', $id, PDO::PARAM_STR);
+            $infractionliste[] = array($ligne['libelee'], $ligne['amount']);
+            
 
-        $req->execute();
+        }
+
         $req->closeCursor();
-
-        return $solde['newSolde'];
+        return $infractionliste;
 
     }
+
+
     /**
      * Get the value of conection
      */ 
