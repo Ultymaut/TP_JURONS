@@ -3,7 +3,8 @@
 include_once "../../modele/BDConnexion.php";
 require_once "../../modele/Infraction.class.php";
 require_once "../../modele/service/InfractionDAO.php";
-// BATIST
+
+// BAPTISTE
 
 if (isset($conn)) {
 // instantiation des méthode InfractionDAO

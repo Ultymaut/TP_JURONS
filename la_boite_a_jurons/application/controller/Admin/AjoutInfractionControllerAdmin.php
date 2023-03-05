@@ -3,7 +3,7 @@ require_once('../../modele/BDConnexion.php');
 require_once('../../modele/service/UserDAO.php');
 require_once('../../modele/service/InfractionDAO.php');
 require_once('../../modele/service/HistoriqueDAO.php');
-// CARON
+// BAPTISTE
 session_start();
 
 if (isset($conn)) {

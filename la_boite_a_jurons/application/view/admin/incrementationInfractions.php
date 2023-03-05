@@ -1,4 +1,4 @@
-<!-- BATIST -->
+<!-- BATISTE -->
 <?php 
 session_start();
 ?>

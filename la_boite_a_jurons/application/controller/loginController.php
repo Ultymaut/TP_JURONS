@@ -8,7 +8,7 @@ require_once "../modele/BDConnexion.php";
  * Verifie si le user exist
  * Verifie ses droits est privilege et redirige vers les bonnes pages
  */
-
+//BAPTISTE ET KATIA
 session_start();
 $login = $_POST["login"];
 if (isset($conn)) {

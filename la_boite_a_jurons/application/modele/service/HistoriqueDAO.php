@@ -1,6 +1,7 @@
 <?php
 require_once "C:/xampp\htdocs\la_boite_a_jurons\application\modele\service\InfractionDAO.php";
 require_once "C:/xampp\htdocs\la_boite_a_jurons\application\modele\service\UserDAO.php";
+//KATIA ET BAPTISTE
 class HistoriqueDAO
 {
     private $conn;
@@ -8,9 +9,6 @@ class HistoriqueDAO
     {
         $this-> setConn ($conn);
     }
-
-
-   
 
     public function insertIntoFait(User $user, Infraction $infractions)
     {
@@ -27,7 +25,6 @@ class HistoriqueDAO
         $req->execute();
         $req->closeCursor();
     }
-
 
     public function selectFaitByUser(User $user)
     {
@@ -84,8 +81,6 @@ class HistoriqueDAO
         $req->closeCursor();
         return $historiquelist;
     }
-
-    
 
     /**
      * @return mixed

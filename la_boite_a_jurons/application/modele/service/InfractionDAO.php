@@ -3,6 +3,7 @@ require_once "C:/xampp\htdocs\la_boite_a_jurons\application\modele\Infraction.cl
 require_once "C:/xampp\htdocs\la_boite_a_jurons\application\modele\User.class.php";
 require_once "C:/xampp\htdocs\la_boite_a_jurons\application\modele\service\UserDAO.php";
 
+//BAPTISTE
 class InfractionDAO
 {
     private PDO $conn;
