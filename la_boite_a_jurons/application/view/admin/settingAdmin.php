@@ -1,22 +1,39 @@
-<!-- KAOUTHAR -->
+<?php
+
+// Mounir MAADOUR
+
+
+require_once "../../modele/service/UserDAO.php";
+require_once "../../modele/BDConnexion.php";
+
+session_start();
+
+$userDAO = new UserDAO($conn);
+
+$users = $userDAO->selectAllUser();
+$allUsers = [];
+
+foreach ($users as $key => $user) {
+    $newUser = $userDAO->getUsertByLogin($user['login']);
+    $allUsers[] = $newUser;
+}
+
+?>
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DashboardAdmin</title>
+    <title>Setting</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/adminStyle.css">
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-</head>
-
-<body id= "Dash">
-    <div class="area"></div>
-    <nav class="main-menu">
+  </head>
+  <body id="targetBody">
+  <div class="area"></div>
+  <nav class="main-menu">
         <ul>
             <li>
-                <a href="../../controller/User/DashBoardController.php">
+                <a href="./DashboardAdmin.php">
                     <i class="fa fa-home fa-2x"></i>
                     <span class="nav-text">
                         Home
@@ -61,44 +78,37 @@
                 </li>
             </ul>
     </nav>
-    <div id="dashboardAdmin">
-        <h1> BIENVENUE CHERIF</h1>
-        <div id="infoG">
-            <span id="info">
-            <h5>INFO PERSONELLE </h5>
-                <hr>
-                <?php session_start();
-                ?>
-                <label id="nom"><code>NOM: </code><?php echo $_SESSION['nomDash']; ?></label><br>
-                <label id="prenom"><code>PRENOM: </code> <?php echo $_SESSION['prenomDash']; ?></label><br>
-                <label id="dateNaissance"><code>DATE DE NAISSANCE: </code><?php echo $_SESSION['naissDash']; ?></label><br>
-                <label id="login"><code>USERNAME: </code><?php echo $_SESSION['login'] ?></label>
-            </span>
-            <div class="solde" >
-                <h5>SOLDE ACTUELLE </h5>
-                <hr>
-            
-             <span id="solde">
-            </span>
+    <span>
+    
+    <h3 style="margin-left: 100px">SETTING DE L'ADMIN</h3><br>
+ 
+   </span>
+  
+    <div id="listusers" style="margin-left : 100px">
+  
+ 
 
-            </div>
-            
-            <span id="histoJ">
-                <h5>HISTORIQUE INFRACTION </h5>
-                <hr>
+<?php
+    foreach ($allUsers as $key => $user) {
+?>
+  <div class="card">
+  <p id="propriete">Nom : <?= $user->getNom();?></p>
+  <p id="propriete">Prénom : <?= $user->getPrenom();?></p>
+  <p id="propriete">Date de naissance : <?= $user->getDateNaissance();?></p>
+  <p id="propriete">privilege : 
+    <?=
+     ($user->getProfile()->getPrivilege()) ? "<button style='background-color : blue; color : white'>Admin</button><button>User</button>"
+      : 
+      "<button >Admin</button><button style='background-color : blue; color : white' >User</button>";?></p>
+  <a href="./modifUser.php?login=<?php echo $user->getProfile()->getLogin(); ?>" >Modifier l'utilisateur</a>
+</div>
+<?php
+    }
 
-                <canvas id="myChart"></canvas>
-            </span>
-        </div>
+?>
 
-    </div>
+  </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../assets/Dash.js"></script>
-
-</body>
-
+  </body>
 </html>

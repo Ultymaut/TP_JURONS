@@ -48,7 +48,7 @@ class HistoriqueDAO
 
         $req->execute();
         // recuperation en tableaux assiociative les donnée de l'infraction et user:
-        if($ligne = $req->fetch(PDO::FETCH_ASSOC))
+        if($req->execute())
         {
             while ($ligne = $req->fetch(PDO::FETCH_ASSOC)){
                 $historiquelist[] = array('libelee'=>$ligne['libelee'],'solde'=>$ligne['cerdit']);

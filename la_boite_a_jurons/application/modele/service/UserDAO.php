@@ -97,6 +97,18 @@ class UserDAO
         $req->execute();
         $req->closeCursor();
     }
+  //Mounir
+    public function updatePrivilegeByLogin(string $login, string $newPrivilege){
+        $newPrivilege = ($newPrivilege == 'Admin') ? 1 : 0 ;
+
+        $req= $this->getConn()->prepare("UPDATE profile SET privilege = :privilege where login =:login");
+
+        $req->bindValue(':privilege', $newPrivilege, PDO::PARAM_STR);
+        $req->bindValue(':login', $login, PDO::PARAM_STR);
+
+        $req->execute();
+        $req->closeCursor();
+    }
 
     
     public function updateUserSolde (User $user){
@@ -110,8 +122,6 @@ class UserDAO
         $req2->bindValue(':id_user', $id, PDO::PARAM_STR);
         $req2->execute();
         $solde=$req2->fetch();
-
-        var_dump($solde);
         
         $req= $this->getConn()->prepare("UPDATE users SET solde = :solde where id_user=:id_user");
 

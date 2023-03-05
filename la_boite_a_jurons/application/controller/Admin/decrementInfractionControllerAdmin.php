@@ -3,9 +3,9 @@ require_once('../../modele/BDConnexion.php');
 require_once('../../modele/service/UserDAO.php');
 require_once('../../modele/service/InfractionDAO.php');
 require_once('../../modele/service/HistoriqueDAO.php');
-
-session_start();
 // KAOUTHAR
+session_start();
+
 if (isset($conn)) {
     $UserDAO = new UserDAO($conn);
 
@@ -25,7 +25,7 @@ if (isset($conn)) {
 
         $infraction = $infractionDao->selectInfractionsByLibelee($_POST['infractionLibel']);
         $user = $UserDAO->getUsertByLogin($_POST['log']);
-        $infractionDao->incrementeInfraction($user, $infraction);
+        $infractionDao->decrementeInfraction($user, $infraction);
         $UserDAO->updateUserSolde($user);
         echo "success";
      
@@ -36,4 +36,3 @@ if (isset($conn)) {
         } else {
         echo "no data";
     }
-

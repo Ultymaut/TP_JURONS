@@ -29,11 +29,11 @@ class InfractionDAO
 
         $req->bindValue(':libelee', $libelee, PDO::PARAM_STR);
 
-        $status = $req->execute();
+        $req->execute();
 
-        if ($status) {
+        if ($ligne = $req->fetch()) {
             // recuperation en tableaux assiociative les donnée de l'infraction (libelee,montant):
-            $ligne = $req->fetch();
+          
             $inf = new Infraction($ligne['libelee'], $ligne['montant']);
             $inf->setId_infraction($ligne['id_Infraction']);
 
@@ -69,6 +69,7 @@ class InfractionDAO
 
         return $req;
     }
+
     public function updateInfractions(Infraction $infraction, string $libelee, float $montant)
     {
         $lib = $infraction->getType();
@@ -89,6 +90,32 @@ class InfractionDAO
     public function incrementeInfraction(User $user, Infraction $infraction)
     {
         $req = $this->getConn()->prepare('INSERT INTO fait(id_Infraction,id_user) VALUES (:id_Infraction,:id_user)');
+
+        $conn = $this->getConn();
+        $userDAO = new UserDAO($conn);
+        $infractionDAO = new InfractionDAO($conn);
+        $libelee = $infraction->getType();
+        
+        $infraction = $infractionDAO->selectInfractionsByLibelee($libelee);
+
+        $login = $user->getProfile()->getLogin();
+        $user = $userDAO->getUsertByLogin($login);
+
+        $id_user = $user->getId_user();
+        $id_Infraction = $infraction->getId_infraction();
+
+        $req->bindValue(':id_Infraction', $id_Infraction, PDO::PARAM_STR);
+        $req->bindValue(':id_user', $id_user, PDO::PARAM_STR);
+
+        $status = $req->execute();
+        $req->closeCursor();
+
+        return $status;
+    }
+
+    public function decrementeInfraction(User $user, Infraction $infraction)
+    {
+        $req = $this->getConn()->prepare('DELETE FROM fait WHERE id_Infraction = :id_Infraction AND id_user = :id_user;');
 
         $conn = $this->getConn();
         $userDAO = new UserDAO($conn);

@@ -9,6 +9,10 @@ require_once '../modele/User.class.php';
 require_once '../modele/service/HistoriqueDAO.php';
 
 $UserDAO = new UserDAO($conn);
+$historique= new HistoriqueDAO($conn);
 $userListe = $UserDAO->selectAllUser();
+$user = $UserDAO->getUsertByLogin("YARA");
 
-var_dump($userListe[0]['login']);
+$profile=$user->getProfile();
+// $json= array('soldeGlobale'=>$solde,'listeSoldeinfractions'=>$infractionlist);
+var_dump($profile);

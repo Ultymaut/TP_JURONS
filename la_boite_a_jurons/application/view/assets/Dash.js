@@ -1,7 +1,5 @@
-
+// KAOUTHAR
 $.ajax({
-    
-   
     url: "../../controller/User/DashBoardController.php",
     success: function (response) {
 

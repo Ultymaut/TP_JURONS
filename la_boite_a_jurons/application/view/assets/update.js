@@ -1,4 +1,4 @@
-
+// KAOUTHAR
     var row;
     var login;
     var infraction;
@@ -14,13 +14,15 @@
         login=row.querySelector('#log').getAttribute('value');
         // let nomTab = username.split(", ")
         // let nom= nomTab[0];
-        console.log(login);
+        
         
 
         infraction = row.querySelector('select').value; 
-        console.log(infraction);
+      
         // call ajax;
         $(document).ready(function (){
+            console.log(login);
+              console.log(infraction);
             $.ajax({
                 type: "post",
                 url: "../../controller/User/AjoutInfactionController.php",

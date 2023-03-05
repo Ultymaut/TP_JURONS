@@ -1,26 +1,25 @@
-<!-- KAOUTHAR -->
-<?php
+<!-- BATIST -->
+<?php 
 session_start();
 ?>
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Boite a JURON</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/userStyle.css">
+    <title>Target</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/adminStyle.css">
+
 </head>
+<body id= "targetBody">
 
-<body id="targetBody">
-
-    <div class="area"></div>
-    <nav class="main-menu">
+<div class="area"></div>
+<nav class="main-menu">
         <ul>
             <li>
-                <a href="./DashboardUser.php">
+                <a href="./DashboardAdmin.php">
                     <i class="fa fa-home fa-2x"></i>
                     <span class="nav-text">
                         Home
@@ -29,7 +28,7 @@ session_start();
 
             </li>
             <li class="has-subnav">
-                <a href="./updateInfraction.php">
+                <a href="./incrementationInfractions.php">
                     <i class="fa fa-bullseye fa-2x"></i>
                     <span class="nav-text">
                         Target
@@ -37,7 +36,23 @@ session_start();
                 </a>
 
             </li>
-
+            <li class="has-subnav">
+                <a href="./settingAdmin.php">
+                
+                    <i class="fa fa-cog fa-2x"></i>
+                    <span class="nav-text">
+                        Settings prévélège
+                    </span>
+                </a>
+            </li>
+            <li class="has-subnav">
+                <a href="AjoutInfraction.php">
+                    <i class="fa fa-puzzle-piece fa-2x"></i>
+                    <span class="nav-text">
+                        Ajouter Infraction
+                    </span>
+                </a>
+            </li>
             <ul class="logout">
                 <li>
                     <a href="../../controller/logoutController.php">
@@ -49,8 +64,9 @@ session_start();
                 </li>
             </ul>
     </nav>
-    <div id="target">
-        <div id="ReadListUser">
+
+<form method="post" action="../../controller/Admin/AjoutInfractionControllerAdmin.php">
+<div id="ReadListUser">
             <table class="table">
                 <thead>
                     <tr>
@@ -77,22 +93,24 @@ session_start();
                        echo "<td>";
                        echo "<button type='button' class='btn btn-danger' onclick='declare(this)'>Declare</button>";
                        echo "</td>";
+                       echo "<td>";
+                       echo "<button type='button' class='btn btn-success' onclick='decrement(this)'>Decrement</button>";
+                       echo "</td>";
                        echo"</tr>";
 
                     }     
                     ?>
-
-
                </tbody>
             </table>
         </div>
 
-    </div>
+</form>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="../assets/update.js"></script>
-</body>
 
+        <script src="../assets/updateAdmin.js"></script>
+</body>
 </html>

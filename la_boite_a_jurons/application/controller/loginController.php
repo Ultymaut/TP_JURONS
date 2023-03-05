@@ -12,9 +12,9 @@ require_once "../modele/BDConnexion.php";
 session_start();
 $login = $_POST["login"];
 if (isset($conn)) {
-    $userDAO = new UserDAO($conn);
-
     if (isset($_POST["login"])) {
+
+        $userDAO = new UserDAO($conn);
         $user = $userDAO->getUsertByLogin($_POST["login"]);
 
         if (isset($user)) {
@@ -27,25 +27,33 @@ if (isset($conn)) {
             $privilege = $userProfile->getPrivilege();
             $password = $userProfile->getMDp();
 
-            if ($privilege == true && $_POST['password'] === $password) {
+            if ($privilege == true && $_POST['pass'] === $password) {
+                $userDAO = new UserDAO($conn);
+                $user = $userDAO->getUsertByLogin($_POST["login"]);
+
 
                 $_SESSION['login'] = $_POST['login'];
                 $_SESSION['nomDash'] = $user->getNom();
                 $_SESSION['prenomDash'] = $user->getPrenom();
                 $_SESSION['naissDash'] = $user->getDateNaissance();
-                $userListe = $UserDAO->selectAllUser();
-                $_SESSION['listeUser'] =$userListe;
+                $userListe = $userDAO->selectAllUser();
+                $_SESSION['listeUser'] = $userListe;
+                echo "admin";
 
-                header("Location:../view/admin/DashboardAdmin.php");
-            } elseif ($privilege == false && $_POST['password'] === $password) {
+                // header("Location:../view/admin/DashboardAdmin.php");
+            } elseif ($privilege == false && $_POST['pass'] === $password) {
+                $userDAO = new UserDAO($conn);
+                $user = $userDAO->getUsertByLogin($_POST["login"]);
+
 
                 $_SESSION['login'] = $_POST['login'];
                 $_SESSION['nomDash'] = $user->getNom();
                 $_SESSION['prenomDash'] = $user->getPrenom();
                 $_SESSION['naissDash'] = $user->getDateNaissance();
-                $userListe = $UserDAO->selectAllUser();
-                $_SESSION['listeUser'] =$userListe;
-                header("Location:../view/user/DashboardUser.php");
+                $userListe = $userDAO->selectAllUser();
+                $_SESSION['listeUser'] = $userListe;
+                // header("Location:../view/user/DashboardUser.php");
+                echo "user";
             } else {
                 echo "Mot de passe Inccorect";
             }
