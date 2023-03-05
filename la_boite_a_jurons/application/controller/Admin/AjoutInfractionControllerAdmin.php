@@ -27,27 +27,30 @@ if (isset($conn)) {
     $_SESSION['libelee'] = $listLibelee;
 
     //
-    if (isset($_GET['libelee'], $_GET['nom'])) {
+    if (isset($_POST['libelee'], $_POST['nom'])) {
 
         $historiqueFaitDAO = new InfractionDAO($conn);
 
-        $infraction = $infractionDao->selectInfractionsByLibelee($_GET['libelee']);
+        $infraction = $infractionDao->selectInfractionsByLibelee($_POST['libelee']);
 
         foreach ($userListe as $index => $item) {
             $nom = $item['nom'];
-            if ($nom == $_GET['nom']) {
+            if ($nom == $_POST['nom']) {
                 $login = $item['login'];
                 break;
             }
         }
         if (isset($login)) {
             $user = $UserDAO->getUsertByLogin($login);
-            $infraction = $infractionDao->selectInfractionsByLibelee($_GET['libelee']);
-            $infractionDao->incrementeInfraction($user, $infraction);
-            $id_user = $user->getId_user();
-            $solde = $UserDAO->updateUserSolde($user);
-            $user ->setSolde($solde);
-            $historiqueFaitDAO->incrementeInfraction($user, $infraction);
+            var_dump($user);
+            var_dump($login);
+//            $infraction = $infractionDao->selectInfractionsByLibelee($_POST['libelee']);
+//            $infractionDao->incrementeInfraction($user, $infraction);
+//
+//            $id_user = $user->getId_user();
+//            $solde = $UserDAO->updateUserSolde($user);
+//            $user ->setSolde($solde);
+
         }
 
 

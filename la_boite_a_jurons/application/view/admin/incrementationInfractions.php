@@ -55,7 +55,7 @@
         </ul>
 </nav>
 
-<form >
+<form method="post" action="../../controller/Admin/AjoutInfractionControllerAdmin.php">
     <div class="d-flex mt-5 ms-5 ps-5 me-5 justify-content-center">
 
         <!--chox d un user-->
